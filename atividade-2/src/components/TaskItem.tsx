@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-
-import { Check, Trash2, Edit3, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Check, Trash2, Edit3, X, CheckCircle, XCircle } from "lucide-react";
+import { Input } from "./ui/input";
 
 export interface Task {
   id: string;
@@ -28,6 +26,7 @@ export const TaskItem = ({
 }: TaskItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
+  const [isHovered, setIsHovered] = useState(false); // Estado para controlar o hover
 
   const handleEdit = () => {
     if (editText.trim()) {
@@ -58,12 +57,25 @@ export const TaskItem = ({
         "animate-slide-in",
         task.completed && "opacity-60"
       )}
+      onMouseEnter={() => setIsHovered(true)} // Ativa o hover
+      onMouseLeave={() => setIsHovered(false)} // Desativa o hover
     >
-      <Checkbox
-        checked={task.completed}
-        onCheckedChange={() => onToggle(task.id)}
-        className="w-5 h-5 rounded-full border-2 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-      />
+      <button
+        onClick={() => onToggle(task.id)}
+        className={cn(
+          "shrink-0 p-2 rounded-lg transition-colors duration-300",
+
+          // Se a tarefa estiver concluída OU estiver pendente e o mouse estiver em hover
+          task.completed || isHovered ? "bg-green-800" : "bg-red-500"
+        )}
+      >
+        {/* Se a tarefa estiver concluída OU estiver pendente e o mouse estiver em hover */}
+        {task.completed || isHovered ? (
+          <CheckCircle className="w-5 h-5 text-accent-foreground" /> // Ícone de concluído (verde)
+        ) : (
+          <XCircle className="w-5 h-5 text-accent-foreground" /> // Ícone de pendente (vermelho)
+        )}
+      </button>
 
       <div className="flex-1 min-w-0">
         {isEditing ? (

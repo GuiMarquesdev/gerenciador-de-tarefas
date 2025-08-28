@@ -56,12 +56,12 @@ export default function ContadorPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 bg-[var(--gradient-primary)] rounded-2xl shadow-[var(--shadow-glow)]">
-              <CheckSquare className="w-8 h-8 text-primary-foreground" />
+              <CheckSquare className="w-8 h-8  text-yellow-500" />
             </div>
             <h1 className="text-4xl font-bold text-primary">TaskFlow do Dia</h1>
-            <Sparkles className="w-6 h-6 text-accent animate-pulse" />
+            <Sparkles className="w-6 h-6 text-yellow-500 " />
           </div>
-          <p className="text-lg max-w-2xl mx-auto text-primary">
+          <p className="text-lg max-w-2xl mx-auto text-primary font-bold">
             Organize suas tarefas de forma simples e eficiente. Mantenha o foco
             no que realmente importa.
           </p>
@@ -76,68 +76,67 @@ export default function ContadorPage() {
         </div>
 
         {/* Tasks List */}
-        <div className="space-y-6">
-          {/* Pending Tasks */}
-          {pendingTasks.length > 0 && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-foreground flex items-center gap-2">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                Pendentes ({pendingTasks.length})
-              </h2>
-              <div className="space-y-3">
-                {pendingTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onToggle={toggleTask}
-                    // Código adicionado para a exclusão de tarefas
-                    onDelete={deleteTask}
-                    // Fim do código adicionado
-                    onEdit={editTask}
-                  />
-                ))}
+        {/* Tasks List */}
+        {/*Criação do layout de grid para as listas --- */}
+        {tasks.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Coluna para Tarefas Pendentes */}
+            {pendingTasks.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4 text-foreground flex items-center gap-2">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  Pendentes ({pendingTasks.length})
+                </h2>
+                <div className="space-y-3">
+                  {pendingTasks.map((task) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      onToggle={toggleTask}
+                      onDelete={deleteTask}
+                      onEdit={editTask}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Completed Tasks */}
-          {completedTasks.length > 0 && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-foreground flex items-center gap-2">
-                <div className="w-2 h-2 bg-accent rounded-full"></div>
-                Concluídas ({completedTasks.length})
-              </h2>
-              <div className="space-y-3">
-                {completedTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onToggle={toggleTask}
-                    // Código adicionado para a exclusão de tarefas
-                    onDelete={deleteTask}
-                    // Fim do código adicionado
-                    onEdit={editTask}
-                  />
-                ))}
+            {/* Coluna para Tarefas Concluídas */}
+            {completedTasks.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4 text-foreground flex items-center gap-2">
+                  <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  Concluídas ({completedTasks.length})
+                </h2>
+                <div className="space-y-3">
+                  {completedTasks.map((task) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      onToggle={toggleTask}
+                      onDelete={deleteTask}
+                      onEdit={editTask}
+                    />
+                  ))}
+                </div>
               </div>
+            )}
+          </div>
+        ) : (
+          /* Estado Vazio */
+          <div className="text-center py-12">
+            <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckSquare className="w-12 h-12 text-muted-foreground" />
             </div>
-          )}
-
-          {/* Empty State */}
-          {tasks.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckSquare className="w-12 h-12 text-muted-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-foreground">
-                Nenhuma tarefa ainda
-              </h3>
-              <p className="text-muted-foreground">
-                Comece adicionando sua primeira tarefa acima!
-              </p>
-            </div>
-          )}
-        </div>
+            <h3 className="text-xl font-semibold mb-2 text-foreground">
+              Nenhuma tarefa ainda
+            </h3>
+            <p className="text-muted-foreground">
+              Comece adicionando sua primeira tarefa acima!
+            </p>
+          </div>
+        )}
+        {/* --- FIM DO CÓDIGO ALTERADO --- */}
       </div>
     </div>
   );

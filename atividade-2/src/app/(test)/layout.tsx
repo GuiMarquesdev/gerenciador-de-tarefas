@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "teste",
+  title: "TaskFlow",
   description: "contador",
 };
 
