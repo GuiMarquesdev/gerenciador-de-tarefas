@@ -29,6 +29,23 @@ export default function ContadorPage() {
     );
   };
 
+  const editTask = (id: string, newText: string) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id === id) {
+          return { ...task, text: newText };
+        }
+        return task;
+      })
+    );
+  };
+
+  // Código adicionado para a exclusão de tarefas
+  const deleteTask = (id: string) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
+  // Fim do código adicionado
+
   const pendingTasks = tasks.filter((task) => !task.completed);
   const completedTasks = tasks.filter((task) => task.completed);
 
@@ -41,12 +58,10 @@ export default function ContadorPage() {
             <div className="p-3 bg-[var(--gradient-primary)] rounded-2xl shadow-[var(--shadow-glow)]">
               <CheckSquare className="w-8 h-8 text-primary-foreground" />
             </div>
-            <h1 className="text-4xl font-bold bg-[var(--gradient-primary)] bg-clip-text text-transparent">
-              TaskFlow
-            </h1>
+            <h1 className="text-4xl font-bold text-primary">TaskFlow do Dia</h1>
             <Sparkles className="w-6 h-6 text-accent animate-pulse" />
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg max-w-2xl mx-auto text-primary">
             Organize suas tarefas de forma simples e eficiente. Mantenha o foco
             no que realmente importa.
           </p>
@@ -75,8 +90,10 @@ export default function ContadorPage() {
                     key={task.id}
                     task={task}
                     onToggle={toggleTask}
-                    // onDelete={deleteTask}
-                    // onEdit={editTask}
+                    // Código adicionado para a exclusão de tarefas
+                    onDelete={deleteTask}
+                    // Fim do código adicionado
+                    onEdit={editTask}
                   />
                 ))}
               </div>
@@ -96,8 +113,10 @@ export default function ContadorPage() {
                     key={task.id}
                     task={task}
                     onToggle={toggleTask}
-                    // onDelete={deleteTask}
-                    // onEdit={editTask}
+                    // Código adicionado para a exclusão de tarefas
+                    onDelete={deleteTask}
+                    // Fim do código adicionado
+                    onEdit={editTask}
                   />
                 ))}
               </div>

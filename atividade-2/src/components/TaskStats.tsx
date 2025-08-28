@@ -1,5 +1,6 @@
 import { Task } from "./TaskItem";
-import { CheckCircle, Circle, Target } from "lucide-react";
+import { CheckCircle, XCircle, Target } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface TaskStatsProps {
   tasks: Task[];
@@ -15,7 +16,7 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       <div className="bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)] hover:shadow-[var(--shadow-card)] transition-all duration-300">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary/10 rounded-lg">
+          <div className="p-2 bg-gray-500 rounded-lg">
             <Target className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -27,7 +28,7 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
 
       <div className="bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)] hover:shadow-[var(--shadow-card)] transition-all duration-300">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-accent/10 rounded-lg">
+          <div className="p-2  bg-green-800 rounded-lg">
             <CheckCircle className="w-5 h-5 text-accent" />
           </div>
           <div>
@@ -41,8 +42,8 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
 
       <div className="bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)] hover:shadow-[var(--shadow-card)] transition-all duration-300">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-muted rounded-lg">
-            <Circle className="w-5 h-5 text-muted-foreground" />
+          <div className="p-2 bg-red-800 rounded-lg">
+            <XCircle className="w-5 h-5 text-muted-foreground" />
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Pendentes</p>
@@ -61,13 +62,10 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
               {completionRate}%
             </p>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div
-              className="bg-[var(--gradient-accent)] h-2 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${completionRate}%` }}
-            />
-          </div>
+          <Progress value={completionRate} className="h-2 bg-muted" />
         </div>
+        /* apenas importamos o componente progress para subistituir o css da div class name
+         */
       )}
     </div>
   );

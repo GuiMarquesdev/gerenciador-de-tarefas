@@ -16,38 +16,38 @@ export interface Task {
 interface TaskItemProps {
   task: Task;
   onToggle: (id: string) => void;
-  //   onDelete: (id: string) => void;
-  //   onEdit: (id: string, newText: string) => void;
+  onEdit: (id: string, newText: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export const TaskItem = ({
   task,
   onToggle,
-}: //   onDelete,
-//   onEdit,
-TaskItemProps) => {
+  onEdit,
+  onDelete,
+}: TaskItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
 
-  //   const handleEdit = () => {
-  //     if (editText.trim()) {
-  //       onEdit(task.id, editText.trim());
-  //       setIsEditing(false);
-  //     }
-  //   };
+  const handleEdit = () => {
+    if (editText.trim()) {
+      onEdit(task.id, editText.trim());
+      setIsEditing(false);
+    }
+  };
 
   const handleCancel = () => {
     setEditText(task.text);
     setIsEditing(false);
   };
 
-  //   const handleKeyPress = (e: React.KeyboardEvent) => {
-  //     if (e.key === "Enter") {
-  //       handleEdit();
-  //     } else if (e.key === "Escape") {
-  //       handleCancel();
-  //     }
-  //   };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleEdit();
+    } else if (e.key === "Escape") {
+      handleCancel();
+    }
+  };
 
   return (
     <div
@@ -71,13 +71,13 @@ TaskItemProps) => {
             <Input
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
-              //   onKeyDown={handleKeyPress}
+              onKeyDown={handleKeyPress}
               className="flex-1 h-8 border-primary/50 focus:border-primary"
               autoFocus
             />
             <Button
               size="sm"
-              //   onClick={handleEdit}
+              onClick={handleEdit}
               className="h-8 w-8 p-0 bg-accent hover:bg-accent-glow"
             >
               <Check className="w-4 h-4" />
@@ -117,7 +117,7 @@ TaskItemProps) => {
         <Button
           size="sm"
           variant="ghost"
-          // onClick={() => onDelete(task.id)}
+          onClick={() => onDelete(task.id)}
           className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
         >
           <Trash2 className="w-4 h-4" />
