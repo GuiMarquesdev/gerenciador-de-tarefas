@@ -3,7 +3,7 @@ import { AddTaskForm } from "@/components/AddTaskForm";
 import { Task, TaskItem } from "@/components/TaskItem";
 import { TaskStats } from "@/components/TaskStats";
 import { Button } from "@/components/ui/button";
-import { CheckSquare, Sparkles } from "lucide-react";
+import { CheckSquare, Sparkles, Trash2 } from "lucide-react"; // Importei Trash2
 import { useState } from "react";
 export default function ContadorPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -40,11 +40,15 @@ export default function ContadorPage() {
     );
   };
 
-  // Código adicionado para a exclusão de tarefas
   const deleteTask = (id: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
-  // Fim do código adicionado
+
+  // ---- Código da nova ação adicionado aqui ----
+  const clearCompletedTasks = () => {
+    setTasks((prev) => prev.filter((task) => !task.completed));
+  };
+  // ---- Fim do código da nova ação ----
 
   const pendingTasks = tasks.filter((task) => !task.completed);
   const completedTasks = tasks.filter((task) => task.completed);
@@ -75,9 +79,21 @@ export default function ContadorPage() {
           <AddTaskForm onAddTask={addTask} />
         </div>
 
+        {/* Botão de limpar tarefas concluídas */}
+        {completedTasks.length > 0 && (
+          <div className="text-right mb-4">
+            <Button
+              variant="default"
+              onClick={clearCompletedTasks}
+              className="hover:shadow-[var(--shadow-glow-destructive)] transition-all duration-300 hover:scale-105"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Limpar Concluídas
+            </Button>
+          </div>
+        )}
+
         {/* Tasks List */}
-        {/* Tasks List */}
-        {/*Criação do layout de grid para as listas --- */}
         {tasks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Coluna para Tarefas Pendentes */}
