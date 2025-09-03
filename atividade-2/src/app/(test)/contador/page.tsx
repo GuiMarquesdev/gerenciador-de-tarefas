@@ -56,10 +56,10 @@ export default function ContadorPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 bg-[var(--gradient-primary)] rounded-2xl shadow-[var(--shadow-glow)]">
-              <CheckSquare className="w-8 h-8  text-yellow-500" />
+              <CheckSquare className="w-8 h-8  text-primary" />
             </div>
             <h1 className="text-4xl font-bold text-primary">TaskFlow do Dia</h1>
-            <Sparkles className="w-6 h-6 text-yellow-500 " />
+            <Sparkles className="w-6 h-6 text-primary " />
           </div>
           <p className="text-lg max-w-2xl mx-auto text-primary font-bold">
             Organize suas tarefas de forma simples e eficiente. Mantenha o foco
@@ -131,12 +131,11 @@ export default function ContadorPage() {
             <h3 className="text-xl font-semibold mb-2 text-foreground">
               Nenhuma tarefa ainda
             </h3>
-            <p className="text-muted-foreground">
+            <p className="text-xl font-semibold mb-2 text-foreground">
               Comece adicionando sua primeira tarefa acima!
             </p>
           </div>
         )}
-        {/* --- FIM DO CÓDIGO ALTERADO --- */}
       </div>
     </div>
   );

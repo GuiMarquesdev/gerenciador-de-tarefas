@@ -31,7 +31,7 @@ export const AddTaskForm = ({ onAddTask }: AddTaskFormProps) => {
       />
       <Button
         type="submit"
-        className="bg-[var(--gradient-primary)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-105"
+        className="bg-black hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-105"
       >
         <Plus className="w-4 h-4 mr-2" />
         Adicionar

@@ -20,7 +20,7 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
             <Target className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total</p>
+            <p className="text-sm  text-primary font-bold">Total</p>
             <p className="text-2xl font-bold text-foreground">{totalCount}</p>
           </div>
         </div>
@@ -29,10 +29,10 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
       <div className="bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)] hover:shadow-[var(--shadow-card)] transition-all duration-300">
         <div className="flex items-center gap-3">
           <div className="p-2  bg-green-800 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-accent" />
+            <CheckCircle className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Concluídas</p>
+            <p className="text-sm text-primary font-bold">Concluídas</p>
             <p className="text-2xl font-bold text-foreground">
               {completedCount}
             </p>
@@ -42,11 +42,11 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
 
       <div className="bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)] hover:shadow-[var(--shadow-card)] transition-all duration-300">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-red-800 rounded-lg">
-            <XCircle className="w-5 h-5 text-muted-foreground" />
+          <div className="p-2 bg-red-700 rounded-lg">
+            <XCircle className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Pendentes</p>
+            <p className="text-sm text-primary font-bold">Pendentes</p>
             <p className="text-2xl font-bold text-foreground">
               {totalCount - completedCount}
             </p>
@@ -57,7 +57,7 @@ export const TaskStats = ({ tasks }: TaskStatsProps) => {
       {totalCount > 0 && (
         <div className="md:col-span-3 bg-card border border-border rounded-lg p-4 shadow-[var(--shadow-task)]">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-muted-foreground">Progresso</p>
+            <p className="text-sm text-primary ">Progresso</p>
             <p className="text-sm font-medium text-primary">
               {completionRate}%
             </p>

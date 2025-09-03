@@ -26,7 +26,7 @@ export const TaskItem = ({
 }: TaskItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
-  const [isHovered, setIsHovered] = useState(false); // Estado para controlar o hover
+  const [isButtonHovered, setIsButtonHovered] = useState(false); // Novo estado
 
   const handleEdit = () => {
     if (editText.trim()) {
@@ -57,23 +57,20 @@ export const TaskItem = ({
         "animate-slide-in",
         task.completed && "opacity-60"
       )}
-      onMouseEnter={() => setIsHovered(true)} // Ativa o hover
-      onMouseLeave={() => setIsHovered(false)} // Desativa o hover
     >
       <button
         onClick={() => onToggle(task.id)}
         className={cn(
           "shrink-0 p-2 rounded-lg transition-colors duration-300",
-
-          // Se a tarefa estiver concluída OU estiver pendente e o mouse estiver em hover
-          task.completed || isHovered ? "bg-green-800" : "bg-red-500"
+          isButtonHovered || task.completed ? "bg-green-800" : "bg-red-700"
         )}
+        onMouseEnter={() => setIsButtonHovered(true)}
+        onMouseLeave={() => setIsButtonHovered(false)}
       >
-        {/* Se a tarefa estiver concluída OU estiver pendente e o mouse estiver em hover */}
-        {task.completed || isHovered ? (
-          <CheckCircle className="w-5 h-5 text-accent-foreground" /> // Ícone de concluído (verde)
+        {isButtonHovered || task.completed ? (
+          <CheckCircle className="w-5 h-5 text-accent-foreground" />
         ) : (
-          <XCircle className="w-5 h-5 text-accent-foreground" /> // Ícone de pendente (vermelho)
+          <XCircle className="w-5 h-5 text-accent-foreground" />
         )}
       </button>
 
