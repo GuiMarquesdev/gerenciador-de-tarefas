@@ -11,6 +11,12 @@ export interface Task {
   createdAt: Date;
 }
 
+export interface TaskHistoryEntry {
+  action: "add" | "edit" | "delete" | "toggle" | "clearCompleted";
+  task: Task;
+  timestamp: Date;
+} // Nova interface para o histórico
+
 interface TaskItemProps {
   task: Task;
   onToggle: (id: string) => void;

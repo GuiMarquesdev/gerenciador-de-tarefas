@@ -1,12 +1,17 @@
+// src/app/(test)/contador/page.tsx
 "use client";
 import { AddTaskForm } from "@/components/AddTaskForm";
-import { Task, TaskItem } from "@/components/TaskItem";
+import { Task, TaskItem, TaskHistoryEntry } from "@/components/TaskItem";
 import { TaskStats } from "@/components/TaskStats";
 import { Button } from "@/components/ui/button";
-import { CheckSquare, Sparkles, Trash2 } from "lucide-react"; // Importei Trash2
+import { CheckSquare, Sparkles, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { format } from "date-fns";
+import { TaskHistory } from "@/components/TaskHistory"; // Importamos o novo componente aqui
+
 export default function ContadorPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [history, setHistory] = useState<TaskHistoryEntry[]>([]);
 
   const addTask = (text: string) => {
     const newTask: Task = {
@@ -16,13 +21,27 @@ export default function ContadorPage() {
       createdAt: new Date(),
     };
     setTasks((prev) => [newTask, ...prev]);
+
+    const newHistoryEntry: TaskHistoryEntry = {
+      action: "add",
+      task: newTask,
+      timestamp: new Date(),
+    };
+    setHistory((prev) => [newHistoryEntry, ...prev]);
   };
 
   const toggleTask = (id: string) => {
     setTasks((prev) =>
       prev.map((task) => {
         if (task.id === id) {
-          return { ...task, completed: !task.completed };
+          const toggledTask = { ...task, completed: !task.completed };
+          const newHistoryEntry: TaskHistoryEntry = {
+            action: "toggle",
+            task: toggledTask,
+            timestamp: new Date(),
+          };
+          setHistory((prev) => [newHistoryEntry, ...prev]);
+          return toggledTask;
         }
         return task;
       })
@@ -30,25 +49,50 @@ export default function ContadorPage() {
   };
 
   const editTask = (id: string, newText: string) => {
-    setTasks((prev) =>
-      prev.map((task) => {
-        if (task.id === id) {
-          return { ...task, text: newText };
-        }
-        return task;
-      })
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, text: newText } : task
     );
+    setTasks(updatedTasks);
+
+    const editedTask = updatedTasks.find((task) => task.id === id);
+    if (editedTask) {
+      const newHistoryEntry: TaskHistoryEntry = {
+        action: "edit",
+        task: editedTask,
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [newHistoryEntry, ...prev]);
+    }
   };
 
   const deleteTask = (id: string) => {
+    const deletedTask = tasks.find((task) => task.id === id);
+    if (deletedTask) {
+      const newHistoryEntry: TaskHistoryEntry = {
+        action: "delete",
+        task: deletedTask,
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [newHistoryEntry, ...prev]);
+    }
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
 
-  // ---- Código da nova ação adicionado aqui ----
   const clearCompletedTasks = () => {
+    const completed = tasks.filter((task) => task.completed);
+    if (completed.length > 0) {
+      const newHistoryEntry: TaskHistoryEntry = {
+        action: "clearCompleted",
+        task: {
+          ...completed[0],
+          text: `${completed.length} tarefas concluídas`,
+        },
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [newHistoryEntry, ...prev]);
+    }
     setTasks((prev) => prev.filter((task) => !task.completed));
   };
-  // ---- Fim do código da nova ação ----
 
   const pendingTasks = tasks.filter((task) => !task.completed);
   const completedTasks = tasks.filter((task) => task.completed);
@@ -83,7 +127,7 @@ export default function ContadorPage() {
         {completedTasks.length > 0 && (
           <div className="text-right mb-4">
             <Button
-              variant="default"
+              variant="destructive"
               onClick={clearCompletedTasks}
               className="hover:shadow-[var(--shadow-glow-destructive)] transition-all duration-300 hover:scale-105"
             >
@@ -152,6 +196,9 @@ export default function ContadorPage() {
             </p>
           </div>
         )}
+
+        {/* Renderiza o novo componente de histórico */}
+        <TaskHistory history={history} />
       </div>
     </div>
   );
