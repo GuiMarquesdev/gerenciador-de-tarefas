@@ -93,7 +93,7 @@ export const TaskItem = ({
             <Button
               size="sm"
               onClick={handleEdit}
-              className="h-8 w-8 p-0 bg-accent hover:bg-accent-glow"
+              className="h-8 w-8 p-0 bg-primary hover:bg-primary/90"
             >
               <Check className="w-4 h-4" />
             </Button>

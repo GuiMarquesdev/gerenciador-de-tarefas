@@ -1,13 +1,12 @@
-// src/app/(test)/contador/page.tsx
 "use client";
 import { AddTaskForm } from "@/components/AddTaskForm";
 import { Task, TaskItem, TaskHistoryEntry } from "@/components/TaskItem";
 import { TaskStats } from "@/components/TaskStats";
 import { Button } from "@/components/ui/button";
-import { CheckSquare, Sparkles, Trash2 } from "lucide-react";
+import { CheckSquare, Sparkles, Trash2, History } from "lucide-react";
 import { useState } from "react";
 import { format } from "date-fns";
-import { TaskHistory } from "@/components/TaskHistory"; // Importamos o novo componente aqui
+import { TaskHistory } from "@/components/TaskHistory";
 
 export default function ContadorPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -31,21 +30,23 @@ export default function ContadorPage() {
   };
 
   const toggleTask = (id: string) => {
-    setTasks((prev) =>
-      prev.map((task) => {
-        if (task.id === id) {
-          const toggledTask = { ...task, completed: !task.completed };
-          const newHistoryEntry: TaskHistoryEntry = {
-            action: "toggle",
-            task: toggledTask,
-            timestamp: new Date(),
-          };
-          setHistory((prev) => [newHistoryEntry, ...prev]);
-          return toggledTask;
-        }
-        return task;
-      })
-    );
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+
+    const toggledTask = updatedTasks.find((task) => task.id === id);
+    if (toggledTask) {
+      const newHistoryEntry: TaskHistoryEntry = {
+        action: "toggle",
+        task: toggledTask,
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [newHistoryEntry, ...prev]);
+    }
   };
 
   const editTask = (id: string, newText: string) => {
@@ -127,7 +128,7 @@ export default function ContadorPage() {
         {completedTasks.length > 0 && (
           <div className="text-right mb-4">
             <Button
-              variant="destructive"
+              variant="default"
               onClick={clearCompletedTasks}
               className="hover:shadow-[var(--shadow-glow-destructive)] transition-all duration-300 hover:scale-105"
             >
@@ -197,7 +198,6 @@ export default function ContadorPage() {
           </div>
         )}
 
-        {/* Renderiza o novo componente de histórico */}
         <TaskHistory history={history} />
       </div>
     </div>
